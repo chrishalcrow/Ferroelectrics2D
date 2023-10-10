@@ -1,0 +1,13 @@
+name = "Ferroelectrics2D"
+uuid = "7926adc6-b371-4f10-9224-84519ecb06c8"
+authors = ["Chris Halcrow and Anton Talkachov"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
