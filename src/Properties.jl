@@ -2,10 +2,10 @@
 
 function energy(P; shift=2)
 	
-	ED = zeros(P.lp[1], P.lp[2])
+	ED = zeros(P.grid.lp[1], P.grid.lp[2])
 	
-	Threads.@threads for j in (1+shift):(P.lp[2]-shift)
-		for i in (1+shift):(P.lp[1]-shift)
+	Threads.@threads for j in (1+shift):(P.grid.lp[2]-shift)
+		for i in (1+shift):(P.grid.lp[1]-shift)
 
 			Ppt = getP(P,i,j)
 			DPpt = getDP(P,i,j)
@@ -15,7 +15,7 @@ function energy(P; shift=2)
 		end
 	end
 
-	total_energy = sum(ED)*P.ls[1]*P.ls[2]
+	total_energy = sum(ED)*P.grid.ls[1]*P.grid.ls[2]
 
 	#if P.is_electrostatic
 	#	total_energy += DipoleEnergy(P, sums, type, shift)

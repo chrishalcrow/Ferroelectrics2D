@@ -1,7 +1,7 @@
 
 
 
-function gradient_flow!(P; shift=2, steps = 1, dt = P.ls[1]/500.0, tolerance = 0.0, checks = max(100,steps), print_stuff = true, dEdp = zeros(P.lp[1],P.lp[2],3) )
+function gradient_flow!(P; shift=2, steps = 1, dt = P.grid.ls[1]/500.0, tolerance = 0.0, checks = max(100,steps), print_stuff = true, dEdp = zeros(P.grid.lp[1],P.grid.lp[2],3) )
 
 
     if tolerance == 0 && checks > steps
@@ -75,8 +75,8 @@ function getdEdP!(P,dedp)
 	A2s = P.parameters.A2s
 	A4s = P.parameters.A4s
 
-	Threads.@threads for i in 3:P.lp[1]-2
-        for j in 3:P.lp[2]-2
+	Threads.@threads for i in 3:P.grid.lp[1]-2
+        for j in 3:P.grid.lp[2]-2
 
             @inbounds for a in 1:3
                 dedp[i,j,a] = 0.0
@@ -115,7 +115,7 @@ end
 
 
 
-
+#=
 
 """
     arrested_newton_flow!(skyrmion; skyrmion_dot, steps = n, tolerance = tol, dt=ls^2/80.0, frequency_of_checking_tolerance = freq, print_stuff = true)
@@ -231,3 +231,6 @@ function newton_flow_for_1_step!(sk, sk2, skd ,dEdp1, dEdp2, dEdp3, dEdp4, dt)
     ##orthog_skd_and_sk_and_normer!(skd,sk)
    
 end
+
+
+=#
