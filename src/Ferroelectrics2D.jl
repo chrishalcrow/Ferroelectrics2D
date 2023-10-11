@@ -22,12 +22,16 @@ mutable struct Parameter
     is_electrostatic::Bool
 end
 
-
-mutable struct PolarisationField2D
-    field::Array{Float64, 3}
+mutable struct Grid
     lp::Vector{Int64}
     ls::Vector{Float64}
     x::Vector{StepRangeLen{Float64, Base.TwicePrecision{Float64}, Base.TwicePrecision{Float64}, Int64}}
+end
+
+
+mutable struct PolarisationField2D
+    field::Array{Float64, 3}
+	grid::Grid
     parameters::Parameter
 end
 
@@ -44,7 +48,14 @@ include("Derivatives.jl")
 include("Diff.jl")
 export gradient_flow!
 
-PolarisationField2D(lp::Vector{Int64},ls::Vector{Float64},R2,material; is_electrostatic=false) = PolarisationField2D( zeros(lp[1],lp[2],3), lp, ls, [-ls[a]*(lp[a] - 1)/2.0 : ls[a] : ls[a]*(lp[a] - 1)/2.0 for a in 1:2 ], set_parameters_lithium!(R2,material, is_electrostatic=is_electrostatic) )
+PolarisationField2D(lp::Vector{Int64},ls::Vector{Float64},R2,material; is_electrostatic=false) = PolarisationField2D( zeros(lp[1],lp[2],3), set_grid(lp,ls) ,set_parameters_lithium!(R2,material, is_electrostatic=is_electrostatic) )
+
+
+function set_grid(lp,ls)
+
+	return Grid(lp, ls, [-ls[a]*(lp[a] - 1)/2.0 : ls[a] : ls[a]*(lp[a] - 1)/2.0 for a in 1:2 ])
+
+end
 
 #=
 
